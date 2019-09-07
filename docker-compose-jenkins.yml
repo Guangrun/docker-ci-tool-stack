@@ -1,0 +1,29 @@
+version: '3'
+
+volumes:
+  jenkins-data:
+  jenkins-home:
+
+networks:
+  prodnetwork:
+    driver: bridge
+
+services:
+
+ jenkins:
+  build: ./jenkins
+  ports:
+    - "10080:8080"
+  networks:
+    - prodnetwork
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /usr/local/bin/docker:/usr/bin/docker
+    - jenkins-home:/var/jenkins_home/
+    - jenkins-data:/var/lib/jenkins/
+  environment:
+    - NEXUS_PORT=8081
+    - SONAR_PORT=9000
+    - SONAR_DB_PORT=5432
+    
+    
